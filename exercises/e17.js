@@ -34,18 +34,18 @@ export function maxBy(array, cb) {
   }
   
   let maxValue = cb(array[0]);
-  let maxItem = array[0];
+  let maxIndex = 0;
   
   for (let i = 1; i < array.length; i++) {
     const currentValue = cb(array[i]);
     
     if (currentValue > maxValue) {
       maxValue = currentValue;
-      maxItem = array[i];
+      maxIndex = i;
     }
   }
   
-  return maxItem;
+  return array[maxIndex];
 }
 
 

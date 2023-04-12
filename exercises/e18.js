@@ -4,27 +4,36 @@
  * Return example: 1902
  */
 
+import { maxBy } from "./e17";
+
 export function getGreatestDiscoveryYear(data) {
+  const asteroids = data.asteroids;
 
-function maxBy(array, cb) {
-  if (!Array.isArray(array) || array.length === 0) {
-    return undefined;
-  }
-
-  let maxValue = cb(array[0]);
-  let maxItem = array[0];
-
-  for (let i = 1; i < array.length; i++) {
-    const currentValue = cb(array[i]);
-    if (currentValue > maxValue) {
-      maxValue = currentValue;
-      maxItem = array[i];
+  // Count asteroids by year
+  const asteroidCountsByYear = asteroids.map(function(asteroid) {
+    return {
+      year: asteroid.discoveryYear,
+      count: 1
+    };
+  }).reduce(function(acc, curr) {
+    if (acc[curr.year]) {
+      acc[curr.year]++;
+    } else {
+      acc[curr.year] = 1;
     }
-  }
+    return acc;
+  }, {});
 
-  return maxItem;
-}
+  // Convert asteroidCountsByYear to an array of objects
+  const asteroidCountsByYearArray = Object.entries(asteroidCountsByYear)
+    .map(([year, count]) => ({ year, count }));
 
+  // Find the year with the largest count
+  const maxYear = asteroidCountsByYearArray.reduce(function(acc, curr) {
+    return acc.count > curr.count ? acc : curr;
+  });
+
+  return parseInt(maxYear.year);
 }
 
 // === TEST YOURSELF ===
